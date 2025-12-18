@@ -21,20 +21,18 @@ public class StudentProfileController {
         this.studentRepo = studentRepo;
     }
 
-    // POST /api/students
     @PostMapping
     public StudentProfile createStudent(@RequestBody StudentProfile student) {
         return studentRepo.save(student);
     }
 
-    // GET /api/students/{id}
+
     @GetMapping("/{id}")
     public StudentProfile getStudentById(@PathVariable Long id) {
         return studentRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
     }
 
-    // GET /api/students
     @GetMapping
     public List<StudentProfile> getAllStudents() {
         return studentRepo.findAll();
