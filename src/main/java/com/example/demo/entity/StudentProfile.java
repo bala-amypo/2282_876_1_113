@@ -3,7 +3,11 @@ public class StudentProfile{
     @Id
     private long id;
     private String studentId;
-    private string name;
-    private string email;
-    private string  
+    private String name;
+    private String email;
+    private String program;
+    private int year; 
+    private Boolean isRepeatOffender;
+    private LocalDateTime createAt;
+    
 }
