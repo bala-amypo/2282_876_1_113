@@ -5,6 +5,7 @@ import java.time.LocalDataTime;
 public class StudentProfile{
     @Id
     private long id;
+    @column(unique=true)
     private String studentId;
     private String name;
     private String email;
