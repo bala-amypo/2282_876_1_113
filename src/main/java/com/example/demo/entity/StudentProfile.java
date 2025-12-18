@@ -1,4 +1,7 @@
 package com.example.demo.entity
+import jakarta.persistence.*;
+import java.time.LocalDataTime;
+@Entity
 public class StudentProfile{
     @Id
     private long id;
@@ -9,5 +12,5 @@ public class StudentProfile{
     private int year; 
     private Boolean isRepeatOffender;
     private LocalDateTime createAt;
-    
+
 }
