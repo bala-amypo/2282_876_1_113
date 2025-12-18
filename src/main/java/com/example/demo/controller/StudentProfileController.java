@@ -1,3 +1,6 @@
 
-package com.example.demo.controller;
+packageom.example.demo.controller;
 public class StudentProfileController{
+
+
+  }
