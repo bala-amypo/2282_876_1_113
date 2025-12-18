@@ -8,6 +8,7 @@ public class StudentProfile{
     @column(unique=true)
     private String studentId;
     private String name;
+    @column(unique=true)
     private String email;
     private String program;
     private int year; 
