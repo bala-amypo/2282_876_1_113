@@ -1,20 +1,15 @@
-package com.example.demo.service
 package com.example.demo.service;
 
-import com.example.demo.entity.Student;
-
+import com.example.demo.model.StudentProfile;
 import java.util.List;
-import java.util.Optional;
 
-public interface StudentService {
+public interface StudentProfileService {
 
-    Student createData(Student student);
+    StudentProfile createStudent(StudentProfile dto);
 
-    List<Student> fetchRecord();
+    StudentProfile getStudentById(Long id);
 
-    Optional<Student> fetchDataById(int id);
+    List<StudentProfile> getAllStudents();
 
-    Student updateRepeatStatus(int studentId, boolean repeatOffender);
-
-    Student findByStudentIdentifier(String studentIdentifier);
+    void updateRepeatOffenderStatus(Long studentId);
 }
