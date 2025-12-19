@@ -1,63 +1,51 @@
-
 package com.example.demo.controller;
-public class StudentProfileController{
-       package com.example.demo.controller;
 
 import com.example.demo.entity.StudentProfile;
-import com.example.demo.repository.StudentProfileRepository;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import com.example.demo.service.StudentProfileService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/students")
-@Tag(name = "Student Profiles")
+@RequestMapping("/students")
 public class StudentProfileController {
 
-    private final StudentProfileRepository studentRepo;
+    private final StudentProfileService studentProfileService;
 
-    public StudentProfileController(StudentProfileRepository studentRepo) {
-        this.studentRepo = studentRepo;
+    public StudentProfileController(StudentProfileService studentProfileService) {
+        this.studentProfileService = studentProfileService;
     }
 
     @PostMapping
-    public StudentProfile createStudent(@RequestBody StudentProfile student) {
-        return studentRepo.save(student);
+    public ResponseEntity<StudentProfile> createStudent(
+            @RequestBody StudentProfile studentProfile
+    ) {
+        return ResponseEntity.ok(
+                studentProfileService.createStudent(studentProfile)
+        );
     }
 
-
     @GetMapping("/{id}")
-    public StudentProfile getStudentById(@PathVariable Long id) {
-        return studentRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Student not found"));
+    public ResponseEntity<StudentProfile> getStudentById(@PathVariable Long id) {
+        return ResponseEntity.ok(
+                studentProfileService.getStudentById(id)
+        );
     }
 
     @GetMapping
-    public List<StudentProfile> getAllStudents() {
-        return studentRepo.findAll();
+    public ResponseEntity<List<StudentProfile>> getAllStudents() {
+        return ResponseEntity.ok(
+                studentProfileService.getAllStudents()
+        );
     }
 
-    @PutMapping("/{studentId}/repeat-status")
-    public StudentProfile updateRepeatStatus(
-            @PathVariable Long studentId,
-            @RequestParam boolean repeatOffender) {
-
-        StudentProfile student = studentRepo.findById(studentId)
-                .orElseThrow(() -> new RuntimeException("Student not found"));
-
-        student.setRepeatOffender(repeatOffender);
-        return studentRepo.save(student);
-    }
-
-
-    @GetMapping("/lookup/{studentIdentifier}")
-    public StudentProfile findByStudentIdentifier(
-            @PathVariable String studentIdentifier) {
-
-        return studentRepo.findByStudentIdentifier(studentIdentifier)
-                .orElseThrow(() -> new RuntimeException("Student not found"));
+    @PutMapping("/{id}/repeat-offender")
+    public ResponseEntity<StudentProfile> updateRepeatOffenderStatus(
+            @PathVariable Long id
+    ) {
+        return ResponseEntity.ok(
+                studentProfileService.updateRepeatOffenderStatus(id)
+        );
     }
 }
-
-  }
