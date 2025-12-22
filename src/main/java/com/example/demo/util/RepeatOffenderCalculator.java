@@ -9,10 +9,20 @@ import java.util.List;
 
 public class RepeatOffenderCalculator {
 
+    public boolean isRepeatOffender(List<IntegrityCase> cases) {
+        return cases != null && cases.size() >= 2;
+    }
+
+    public String calculateSeverity(int totalCases) {
+        if (totalCases == 1) return "LOW";
+        if (totalCases == 2) return "MEDIUM";
+        if (totalCases >= 4) return "HIGH";
+        return "LOW";
+    }
+
     public RepeatOffenderRecord computeRepeatOffenderRecord(StudentProfile s, List<IntegrityCase> cases) {
 
         RepeatOffenderRecord record = new RepeatOffenderRecord();
-
         record.setStudentProfile(s);
         record.setTotalCases(cases.size());
 
@@ -25,14 +35,7 @@ public class RepeatOffenderCalculator {
             );
         }
 
-        if (cases.size() == 1) {
-            record.setFlagSeverity("LOW");
-        } else if (cases.size() == 2) {
-            record.setFlagSeverity("MEDIUM");
-        } else if (cases.size() >= 4) {
-            record.setFlagSeverity("HIGH");
-        }
-
+        record.setFlagSeverity(calculateSeverity(cases.size()));
         return record;
     }
 }
