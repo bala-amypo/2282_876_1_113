@@ -1,23 +1,16 @@
 package com.example.demo.repository;
 
 import com.example.demo.entity.IntegrityCase;
+import com.example.demo.entity.StudentProfile;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
-import java.time.LocalDate;
 import java.util.List;
 
-@Repository
 public interface IntegrityCaseRepository extends JpaRepository<IntegrityCase, Long> {
-    List<IntegrityCase> findByStudentProfile_Id(Long studentId);
-    
-    @Query("SELECT ic FROM IntegrityCase ic WHERE ic.studentProfile.studentId = :studentIdentifier")
-    List<IntegrityCase> findByStudentIdentifier(@Param("studentIdentifier") String studentIdentifier);
-    
-    @Query("SELECT ic FROM IntegrityCase ic WHERE ic.status = :status AND ic.incidentDate >= :sinceDate")
-    List<IntegrityCase> findRecentCasesByStatus(@Param("status") String status, @Param("sinceDate") LocalDate sinceDate);
-    
-    List<IntegrityCase> findByIncidentDateBetween(LocalDate start, LocalDate end);
-    List<IntegrityCase> findByStatus(String status);
+
+    List<IntegrityCase> findByStudentProfile(StudentProfile studentProfile);
+
+    // other methods required by test suite:
+    List<IntegrityCase> findByStudentIdentifier(String studentId);
+    List<IntegrityCase> findRecentCasesByStatus(String status, java.time.LocalDate date);
+    List<IntegrityCase> findByIncidentDateBetween(java.time.LocalDate start, java.time.LocalDate end);
 }
