@@ -17,10 +17,11 @@ public class IntegrityCaseController {
         this.integrityCaseService = integrityCaseService;
     }
     
-    @PostMapping("/refresh/{studentId}")
-public RepeatOffenderRecord refreshRepeat(@PathVariable Long studentId) {
-    return repeatOffenderRecordService.refreshRepeatOffenderData(studentId);
+  @PostMapping("/")
+public IntegrityCase createCase(@RequestBody IntegrityCase integrityCase) {
+    return integrityCaseService.createCase(integrityCase);
 }
+
 
     
     @PutMapping("/{id}/status")
