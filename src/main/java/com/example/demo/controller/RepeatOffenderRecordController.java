@@ -23,7 +23,7 @@ public class RepeatOffenderRecordController {
     @GetMapping("/{studentId}")
     public ResponseEntity<ApiResponse> getRepeatOffenderRecord(@PathVariable Long studentId) {
         StudentProfile student = studentProfileService.getStudentById(studentId);
-        RepeatOffenderRecord record = repeatOffenderRecordService.recalculateRecord(student);
+        RepeatOffenderRecord record = repeatOffenderRecordService.refreshRepeatOffenderData(studentId)
         return ResponseEntity.ok(new ApiResponse(true, "Record recalculated", record));
     }
 }
