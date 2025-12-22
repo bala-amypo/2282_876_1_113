@@ -13,7 +13,6 @@ public class RepeatOffenderRecordController {
     public RepeatOffenderRecordController(RepeatOffenderRecordService repeatOffenderRecordService) {
         this.repeatOffenderRecordService = repeatOffenderRecordService;
     }
-
     @PostMapping("/recalculate/{studentId}")
     public RepeatOffenderRecord recalculate(@PathVariable Long studentId) {
         return repeatOffenderRecordService.refreshRepeatOffenderData(studentId);
