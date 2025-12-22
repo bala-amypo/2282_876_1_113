@@ -1,8 +1,8 @@
 package com.example.demo.util;
 
-import com.example.demo.model.StudentProfile;
-import com.example.demo.model.IntegrityCase;
-import com.example.demo.model.RepeatOffenderRecord;
+import com.example.demo.entity.StudentProfile;
+import com.example.demo.entity.IntegrityCase;
+import com.example.demo.entity.RepeatOffenderRecord;
 
 import java.time.LocalDate;
 import java.util.List;
