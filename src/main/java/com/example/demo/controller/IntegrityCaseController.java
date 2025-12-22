@@ -17,11 +17,11 @@ public class IntegrityCaseController {
         this.integrityCaseService = integrityCaseService;
     }
     
-    @PostMapping
-    public ResponseEntity<ApiResponse> createCase(@RequestBody IntegrityCase integrityCase) {
-        IntegrityCase created = integrityCaseService.createCase(integrityCase);
-        return ResponseEntity.ok(new ApiResponse(true, "Case created successfully", created));
-    }
+    @PostMapping("/refresh/{studentId}")
+public RepeatOffenderRecord refreshRepeat(@PathVariable Long studentId) {
+    return repeatOffenderRecordService.refreshRepeatOffenderData(studentId);
+}
+
     
     @PutMapping("/{id}/status")
     public ResponseEntity<ApiResponse> updateStatus(@PathVariable Long id, @RequestParam String status) {
