@@ -44,5 +44,5 @@ public class PenaltyAction {
     public void setIssuedBy(String issuedBy) { this.issuedBy = issuedBy; }
     
     public LocalDateTime getIssuedAt() { return issuedAt; }
-    public void setIssuedAt(LocalDateTime issuedAt) { this.issuedAt = issuedAt; }
-}
+    public void setIssuedAt(LocalDateTime issuedAt) { this.issuedAt = issuedAt; 
+    }
