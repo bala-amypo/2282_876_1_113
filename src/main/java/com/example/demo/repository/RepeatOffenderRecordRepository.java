@@ -1,9 +1,7 @@
 package com.example.demo.repository;
 
-import com.example.demo.entity.EvidenceRecord;
+import com.example.demo.entity.RepeatOffenderRecord;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public interface EvidenceRecordRepository extends JpaRepository<EvidenceRecord, Long> {
+public interface RepeatOffenderRecordRepository extends JpaRepository<RepeatOffenderRecord, Long> {
 }
