@@ -1,1 +1,5 @@
-package com.example.
+package com.example.demo.exception;
+
+public class ResourceNotFoundException{
+    
+}
