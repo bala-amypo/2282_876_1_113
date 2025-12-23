@@ -1,48 +1,39 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
-import java.util.List;
-import lombok.*;
-@Entity
-@Data
-@Table(name = "student_profiles")
 
+@Entity
 public class StudentProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
-    private String studentId;
+    private String studentIdentifier;
 
     private String name;
-    private String email;
-    private String program;
 
-    @Column(nullable = false)
-    private Integer yearLevel;
-
-    private Boolean repeatOffender = false;
-
-    private LocalDateTime createdAt;
-
-    @OneToMany(mappedBy = "studentProfile")
-    private List<IntegrityCase> integrityCases;
-
-    public StudentProfile() {}
-
-    public StudentProfile(String studentId, String name, String email) {
-        this.studentId = studentId;
-        this.name = name;
-        this.email = email;
+    public Long getId() {
+        return id;
     }
 
-    @PrePersist
-    protected void onCreate() { this.createdAt = LocalDateTime.now(); }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public Long getId() { return id; }
-    public Boolean getRepeatOffender() { return repeatOffender; }
-    public void setRepeatOffender(Boolean repeatOffender) { this.repeatOffender = repeatOffender; }
+    public String getStudentIdentifier() {
+        return studentIdentifier;
+    }
+
+    public void setStudentIdentifier(String studentIdentifier) {
+        this.studentIdentifier = studentIdentifier;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
