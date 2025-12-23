@@ -21,7 +21,28 @@ public class EvidenceRecordServiceImpl implements EvidenceRecordService {
     @Override
     public EvidenceRecord submitEvidence(EvidenceRecord evidenceRecord) {
         if (evidenceRecord.getIntegrityCase() == null || 
-            !integrityCaseRepository.existsById(evidenceRecord.getIntegrityCase().getId())) {
+            !intpackage com.example.demo.service.impl;
+
+import com.example.demo.entity.IntegrityCase;
+import com.example.demo.repository.IntegrityCaseRepository;
+import com.example.demo.service.EvidenceRecordService;
+import org.springframework.stereotype.Service;
+import java.util.List;
+
+@Service
+public class EvidenceRecordServiceImpl implements EvidenceRecordService {
+
+    private final IntegrityCaseRepository integrityCaseRepository;
+
+    public EvidenceRecordServiceImpl(IntegrityCaseRepository integrityCaseRepository) {
+        this.integrityCaseRepository = integrityCaseRepository;
+    }
+
+    public List<IntegrityCase> getCasesByStudentIdentifier(String studentIdentifier) {
+        return integrityCaseRepository.findByStudentIdentifier(studentIdentifier);
+    }
+}
+egrityCaseRepository.existsById(evidenceRecord.getIntegrityCase().getId())) {
             throw new ResourceNotFoundException("IntegrityCase not found");
         }
         return evidenceRecordRepository.save(evidenceRecord);
