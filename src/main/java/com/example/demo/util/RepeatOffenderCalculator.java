@@ -1,8 +1,7 @@
 package com.example.demo.util;
 
-import com.example.demo.entity.StudentProfile;
 import com.example.demo.entity.IntegrityCase;
-import com.example.demo.entity.RepeatOffenderRecord;
+import com.example.demo.entity.StudentProfile;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -10,32 +9,25 @@ import java.util.List;
 public class RepeatOffenderCalculator {
 
     public boolean isRepeatOffender(List<IntegrityCase> cases) {
-        return cases != null && cases.size() >= 2;
+        return cases.size() >= 2;
     }
 
-    public String calculateSeverity(int totalCases) {
-        if (totalCases == 1) return "LOW";
-        if (totalCases == 2) return "MEDIUM";
-        if (totalCases >= 4) return "HIGH";
-        return "LOW";
+    public int calculateSeverity(int caseCount) {
+        if (caseCount >= 5) return 3;
+        if (caseCount >= 3) return 2;
+        return 1;
     }
 
-    public RepeatOffenderRecord computeRepeatOffenderRecord(StudentProfile s, List<IntegrityCase> cases) {
+    public void computeRepeatOffenderRecord(StudentProfile student, List<IntegrityCase> cases) {
+        boolean repeat = isRepeatOffender(cases);
+        student.setRepeatOffender(repeat);
+    }
 
-        RepeatOffenderRecord record = new RepeatOffenderRecord();
-        record.setStudentProfile(s);
-        record.setTotalCases(cases.size());
-
-        if (!cases.isEmpty()) {
-            record.setLastIncidentDate(
-                    cases.stream()
-                            .map(IntegrityCase::getIncidentDate)
-                            .max(LocalDate::compareTo)
-                            .orElse(null)
-            );
-        }
-
-        record.setFlagSeverity(calculateSeverity(cases.size()));
-        return record;
+    public static long countRecentCases(List<IntegrityCase> cases, int months) {
+        LocalDate cutoff = LocalDate.now().minusMonths(months);
+        return cases.stream()
+                .filter(c -> c.getIncidentDate() != null)
+                .filter(c -> c.getIncidentDate().isAfter(cutoff))
+                .count();
     }
 }

@@ -9,9 +9,17 @@ public class StudentProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String studentIdentifier;
+    private String studentId;
 
     private String name;
+
+    private String email;
+
+    private String program;
+
+    private Integer yearLevel;
+
+    private Boolean repeatOffender;
 
     public Long getId() {
         return id;
@@ -21,12 +29,12 @@ public class StudentProfile {
         this.id = id;
     }
 
-    public String getStudentIdentifier() {
-        return studentIdentifier;
+    public String getStudentId() {
+        return studentId;
     }
 
-    public void setStudentIdentifier(String studentIdentifier) {
-        this.studentIdentifier = studentIdentifier;
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
     }
 
     public String getName() {
@@ -35,5 +43,37 @@ public class StudentProfile {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getProgram() {
+        return program;
+    }
+
+    public void setProgram(String program) {
+        this.program = program;
+    }
+
+    public Integer getYearLevel() {
+        return yearLevel;
+    }
+
+    public void setYearLevel(Integer yearLevel) {
+        this.yearLevel = yearLevel;
+    }
+
+    public Boolean getRepeatOffender() {
+        return repeatOffender;
+    }
+
+    public void setRepeatOffender(Boolean repeatOffender) {
+        this.repeatOffender = repeatOffender;
     }
 }
