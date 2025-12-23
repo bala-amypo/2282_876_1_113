@@ -15,7 +15,7 @@ public class OpenApiConfig {
                 // You need to change the port as per your server
                 .servers(List.of(
                         // new Server().url("https://9005.vs.amypo.ai")
-                        new Server().url("https:/https://9171.32procr.amypo.ai/login/9171.32procr.amypo.ai/")
+                        new Server().url("https://9171.32procr.amypo.ai/")
                 ));
         }
 }
