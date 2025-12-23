@@ -8,9 +8,7 @@ import java.util.List;
 
 public interface IntegrityCaseRepository extends JpaRepository<IntegrityCase, Long> {
 
-    List<IntegrityCase> findByStudentProfile_Id(Long id);
-
     List<IntegrityCase> findByStudentProfile(StudentProfile studentProfile);
 
-    List<IntegrityCase> findByStudentIdentifier(String studentIdentifier);
+    List<IntegrityCase> findByStudentProfile_Id(Long id);
 }
