@@ -1,50 +1,44 @@
 package com.example.demo.controller;
 
-
-import com.example.demo.dto.*;
 import com.example.demo.entity.StudentProfile;
+import com.example.demo.dto.StudentRequests;
 import com.example.demo.service.StudentProfileService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
 @RequestMapping("/students")
 public class StudentProfileController {
-    private final StudentProfileService studentProfileService;
-    
-    public StudentProfileController(StudentProfileService studentProfileService) {
-        this.studentProfileService = studentProfileService;
+
+    private final StudentProfileService service;
+
+    public StudentProfileController(StudentProfileService service) {
+        this.service = service;
     }
-    
-@PostMapping
-public ResponseEntity<ApiResponse> createStudent(
-        @RequestBody StudentRequests studentProfile) {
 
-    StudentProfile created =
-            studentProfileService.createStudent(studentProfile);
+    @PostMapping
+    public StudentProfile createStudent(@RequestBody StudentRequests request) {
+        StudentProfile student = new StudentProfile();
+        student.setStudentId(request.getStudentId());
+        student.setEmail(request.getEmail());
+        student.setProgram(request.getProgram());
+        student.setYearLevel(request.getYearLevel());
+        student.setRepeatOffender(false);
+        return service.createStudent(student);
+    }
 
-    return ResponseEntity.ok(
-            new ApiResponse(true, "Student created successfully", created)
-    );
-}
-
-    
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse> getStudent(@PathVariable Long id) {
-        StudentProfile student = studentProfileService.getStudentById(id);
-        return ResponseEntity.ok(new ApiResponse(true, "Student found", student));
+    public StudentProfile getStudentById(@PathVariable Long id) {
+        return service.getStudentById(id);
     }
-    
+
     @GetMapping
-    public ResponseEntity<ApiResponse> getAllStudents() {
-        List<StudentProfile> students = studentProfileService.getAllStudents();
-        return ResponseEntity.ok(new ApiResponse(true, "Students retrieved", students));
+    public List<StudentProfile> getAllStudents() {
+        return service.getAllStudents();
     }
-    
-    @PutMapping("/{id}/repeat-status")
-    public ResponseEntity<ApiResponse> updateRepeatStatus(@PathVariable Long id) {
-        StudentProfile updated = studentProfileService.updateRepeatOffenderStatus(id);
-        return ResponseEntity.ok(new ApiResponse(true, "Repeat status updated", updated));
+
+    @PutMapping("/{id}/update-repeat")
+    public void updateRepeatOffenderStatus(@PathVariable Long id) {
+        service.updateRepeatOffenderStatus(id);
     }
 }
