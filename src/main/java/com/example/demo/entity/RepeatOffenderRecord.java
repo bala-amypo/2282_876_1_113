@@ -1,38 +1,29 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
 
 @Entity
-@Table(name = "repeat_offender_records")
 public class RepeatOffenderRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    private Boolean repeatOffender;
+    private String severityLevel;
+
+    @OneToOne
     private StudentProfile studentProfile;
 
-    private Integer totalCases;
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    private LocalDate lastIncidentDate;
+    public Boolean getRepeatOffender() { return repeatOffender; }
+    public void setRepeatOffender(Boolean repeatOffender) { this.repeatOffender = repeatOffender; }
 
-    private String flagSeverity;
+    public String getSeverityLevel() { return severityLevel; }
+    public void setSeverityLevel(String severityLevel) { this.severityLevel = severityLevel; }
 
-    public void setStudentProfile(StudentProfile studentProfile) {
-        this.studentProfile = studentProfile;
-    }
-
-    public void setTotalCases(Integer totalCases) {
-        this.totalCases = totalCases;
-    }
-
-    public void setLastIncidentDate(LocalDate lastIncidentDate) {
-        this.lastIncidentDate = lastIncidentDate;
-    }
-
-    public void setFlagSeverity(String flagSeverity) {
-        this.flagSeverity = flagSeverity;
-    }
+    public StudentProfile getStudentProfile() { return studentProfile; }
+    public void setStudentProfile(StudentProfile studentProfile) { this.studentProfile = studentProfile; }
 }
