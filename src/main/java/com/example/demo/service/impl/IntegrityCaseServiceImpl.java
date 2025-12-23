@@ -1,24 +1,19 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.IntegrityCase;
-import com.example.demo.entity.StudentProfile;
 import com.example.demo.repository.IntegrityCaseRepository;
-import com.example.demo.repository.StudentProfileRepository;
 import com.example.demo.service.IntegrityCaseService;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class IntegrityCaseServiceImpl implements IntegrityCaseService {
 
     private final IntegrityCaseRepository repository;
-    private final StudentProfileRepository studentRepo;
 
-    public IntegrityCaseServiceImpl(IntegrityCaseRepository repository,
-                                    StudentProfileRepository studentRepo) {
+    public IntegrityCaseServiceImpl(IntegrityCaseRepository repository) {
         this.repository = repository;
-        this.studentRepo = studentRepo;
     }
 
     @Override
@@ -27,20 +22,23 @@ public class IntegrityCaseServiceImpl implements IntegrityCaseService {
     }
 
     @Override
-    public IntegrityCase updateCaseStatus(Long caseId, String status) {
-        IntegrityCase ic = repository.findById(caseId).orElseThrow();
-        ic.setStatus(status);
-        return repository.save(ic);
+    public IntegrityCase updateCaseStatus(Long id, String status) {
+        Optional<IntegrityCase> optCase = repository.findById(id);
+        if(optCase.isPresent()){
+            IntegrityCase ic = optCase.get();
+            ic.setStatus(status);
+            return repository.save(ic);
+        }
+        return null;
     }
 
     @Override
     public List<IntegrityCase> getCasesByStudent(Long studentId) {
-        StudentProfile student = studentRepo.findById(studentId).orElseThrow();
-        return repository.findByStudentProfile(student);
+        return repository.findByStudentProfile_Id(studentId);
     }
 
     @Override
-    public IntegrityCase getCaseById(Long caseId) {
-        return repository.findById(caseId).orElseThrow();
+    public Optional<IntegrityCase> getCaseById(Long id) {
+        return repository.findById(id);
     }
 }

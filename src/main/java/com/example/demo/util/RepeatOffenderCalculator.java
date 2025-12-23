@@ -1,31 +1,26 @@
 package com.example.demo.util;
 
-import com.example.demo.entity.*;
-
+import com.example.demo.entity.IntegrityCase;
+import com.example.demo.entity.StudentProfile;
+import com.example.demo.entity.RepeatOffenderRecord;
+import org.springframework.stereotype.Component;
 import java.util.List;
 
+@Component
 public class RepeatOffenderCalculator {
 
-    public boolean isRepeatOffender(List<IntegrityCase> cases) {
-        return cases.size() >= 2;
-    }
-
-    public int calculateSeverity(int count) {
-        if (count >= 5) return 3;
-        if (count >= 3) return 2;
-        return 1;
-    }
-
-    public RepeatOffenderRecord computeRepeatOffenderRecord(
-            StudentProfile student,
-            List<IntegrityCase> cases) {
-
+    public RepeatOffenderRecord computeRepeatOffenderRecord(StudentProfile student, List<IntegrityCase> cases) {
         RepeatOffenderRecord record = new RepeatOffenderRecord();
         record.setStudentProfile(student);
-        record.setRepeatOffender(isRepeatOffender(cases));
-        record.setSeverityLevel(
-                String.valueOf(calculateSeverity(cases.size()))
-        );
+        record.setSeverity(calculateSeverity(cases.size()));
         return record;
+    }
+
+    public boolean isRepeatOffender(List<IntegrityCase> cases) {
+        return cases.size() > 1;
+    }
+
+    public int calculateSeverity(int numCases) {
+        return Math.min(numCases * 10, 100);
     }
 }

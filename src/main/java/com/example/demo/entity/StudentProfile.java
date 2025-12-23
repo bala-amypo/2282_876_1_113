@@ -1,29 +1,29 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 public class StudentProfile {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String studentId;
-    private String name;
     private String email;
     private String program;
     private Integer yearLevel;
     private Boolean repeatOffender;
 
+    @OneToMany(mappedBy = "studentProfile")
+    private List<IntegrityCase> cases;
+
+    // getters and setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
     public String getStudentId() { return studentId; }
     public void setStudentId(String studentId) { this.studentId = studentId; }
-
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
@@ -36,4 +36,7 @@ public class StudentProfile {
 
     public Boolean getRepeatOffender() { return repeatOffender; }
     public void setRepeatOffender(Boolean repeatOffender) { this.repeatOffender = repeatOffender; }
+
+    public List<IntegrityCase> getCases() { return cases; }
+    public void setCases(List<IntegrityCase> cases) { this.cases = cases; }
 }
