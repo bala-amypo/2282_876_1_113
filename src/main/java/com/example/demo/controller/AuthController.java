@@ -20,7 +20,6 @@
 //     @PostMapping("/register")
 //     public ResponseEntity<ApiResponse> register(@RequestBody RegisterRequest registerRequest) {
 //         authService.register(registerRequest);
-//         return ResponseEntity.ok(new ApiResponse(true, "User registered successfully"));
 //     }
     
 //     @PostMapping("/login")
