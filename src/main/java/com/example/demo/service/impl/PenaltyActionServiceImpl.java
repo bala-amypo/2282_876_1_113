@@ -12,13 +12,13 @@ import org.springframework.stereotype.Service;
 public class PenaltyActionServiceImpl implements PenaltyActionService {
     private final PenaltyActionRepository penaltyActionRepository;
     private final IntegrityCaseRepository integrityCaseRepository;
-    
+
     public PenaltyActionServiceImpl(PenaltyActionRepository penaltyActionRepository,
                                   IntegrityCaseRepository integrityCaseRepository) {
         this.penaltyActionRepository = penaltyActionRepository;
         this.integrityCaseRepository = integrityCaseRepository;
     }
-    
+
     @Override
     public PenaltyAction addPenalty(PenaltyAction penaltyAction) {
         IntegrityCase integrityCase = integrityCaseRepository.findById(penaltyAction.getIntegrityCase().getId())

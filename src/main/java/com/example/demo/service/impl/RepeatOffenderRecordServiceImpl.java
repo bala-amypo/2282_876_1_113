@@ -2,46 +2,46 @@ package com.example.demo.service.impl;
 
 import com.example.demo.entity.RepeatOffenderRecord;
 import com.example.demo.entity.StudentProfile;
+import com.example.demo.repository.IntegrityCaseRepository;
 import com.example.demo.repository.RepeatOffenderRecordRepository;
 import com.example.demo.repository.StudentProfileRepository;
-import com.example.demo.util.RepeatOffenderCalculator;
+import com.example.demo.service.RepeatOffenderCalculator;
 import com.example.demo.service.RepeatOffenderRecordService;
 import org.springframework.stereotype.Service;
-import java.util.List;
 
 @Service
 public class RepeatOffenderRecordServiceImpl implements RepeatOffenderRecordService {
+    private final StudentProfileRepository studentProfileRepository;
+    private final IntegrityCaseRepository integrityCaseRepository;
+    private final RepeatOffenderRecordRepository repeatOffenderRecordRepository;
+    private final RepeatOffenderCalculator repeatOffenderCalculator;
 
-    private final RepeatOffenderRecordRepository recordRepo;
-    private final StudentProfileRepository studentRepo;
-    private final RepeatOffenderCalculator calculator;
-
-    public RepeatOffenderRecordServiceImpl(RepeatOffenderRecordRepository recordRepo,
-                                           StudentProfileRepository studentRepo,
-                                           RepeatOffenderCalculator calculator) {
-        this.recordRepo = recordRepo;
-        this.studentRepo = studentRepo;
-        this.calculator = calculator;
+    public RepeatOffenderRecordServiceImpl(StudentProfileRepository studentProfileRepository,
+                                         IntegrityCaseRepository integrityCaseRepository,
+                                         RepeatOffenderRecordRepository repeatOffenderRecordRepository,
+                                         RepeatOffenderCalculator repeatOffenderCalculator) {
+        this.studentProfileRepository = studentProfileRepository;
+        this.integrityCaseRepository = integrityCaseRepository;
+        this.repeatOffenderRecordRepository = repeatOffenderRecordRepository;
+        this.repeatOffenderCalculator = repeatOffenderCalculator;
     }
 
     @Override
-    public void refreshRepeatOffenderData(Long studentId) {
-        StudentProfile student = studentRepo.findById(studentId).orElse(null);
-        if(student != null){
-            List cases = student.getCases();
-            RepeatOffenderRecord record = calculator.computeRepeatOffenderRecord(student, cases);
-            recordRepo.save(record);
-            student.setRepeatOffender(calculator.isRepeatOffender(cases));
-            studentRepo.save(student);
-        }
-    }
-
-    @Override
-    public RepeatOffenderRecord getRepeatOffenderRecord(Long studentId) {
-        return recordRepo.findAll()
-                .stream()
-                .filter(r -> r.getStudentProfile().getId().equals(studentId))
-                .findFirst()
-                .orElse(null);
+    public RepeatOffenderRecord recalculateRecord(StudentProfile studentProfile) {
+        var cases = integrityCaseRepository.findByStudentProfile_Id(studentProfile.getId());
+        int totalCases = cases.size();
+        String severity = repeatOffenderCalculator.calculateSeverity(totalCases);
+        boolean isRepeatOffender = repeatOffenderCalculator.isRepeatOffender(cases);
+        
+        studentProfile.setRepeatOffender(isRepeatOffender);
+        studentProfileRepository.save(studentProfile);
+        
+        RepeatOffenderRecord record = repeatOffenderRecordRepository.findByStudentProfile(studentProfile)
+                .orElse(new RepeatOffenderRecord());
+        record.setStudentProfile(studentProfile);
+        record.setTotalCases(totalCases);
+        record.setFlagSeverity(severity);
+        
+        return repeatOffenderRecordRepository.save(record);
     }
 }

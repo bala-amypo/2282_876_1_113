@@ -1,7 +1,9 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.IntegrityCase;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.IntegrityCaseRepository;
+import com.example.demo.repository.StudentProfileRepository;
 import com.example.demo.service.IntegrityCaseService;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -9,36 +11,38 @@ import java.util.Optional;
 
 @Service
 public class IntegrityCaseServiceImpl implements IntegrityCaseService {
+    private final IntegrityCaseRepository integrityCaseRepository;
+    private final StudentProfileRepository studentProfileRepository;
 
-    private final IntegrityCaseRepository repository;
-
-    public IntegrityCaseServiceImpl(IntegrityCaseRepository repository) {
-        this.repository = repository;
+    public IntegrityCaseServiceImpl(IntegrityCaseRepository integrityCaseRepository,
+                                  StudentProfileRepository studentProfileRepository) {
+        this.integrityCaseRepository = integrityCaseRepository;
+        this.studentProfileRepository = studentProfileRepository;
     }
 
     @Override
     public IntegrityCase createCase(IntegrityCase integrityCase) {
-        return repository.save(integrityCase);
+        if (integrityCase.getStudentProfile() == null) {
+            throw new IllegalArgumentException("StudentProfile is required");
+        }
+        return integrityCaseRepository.save(integrityCase);
     }
 
     @Override
-    public IntegrityCase updateCaseStatus(Long id, String status) {
-        Optional<IntegrityCase> optCase = repository.findById(id);
-        if(optCase.isPresent()){
-            IntegrityCase ic = optCase.get();
-            ic.setStatus(status);
-            return repository.save(ic);
-        }
-        return null;
+    public IntegrityCase updateCaseStatus(Long caseId, String newStatus) {
+        IntegrityCase integrityCase = integrityCaseRepository.findById(caseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Case not found"));
+        integrityCase.setStatus(newStatus);
+        return integrityCaseRepository.save(integrityCase);
     }
 
     @Override
     public List<IntegrityCase> getCasesByStudent(Long studentId) {
-        return repository.findByStudentProfile_Id(studentId);
+        return integrityCaseRepository.findByStudentProfile_Id(studentId);
     }
 
     @Override
-    public Optional<IntegrityCase> getCaseById(Long id) {
-        return repository.findById(id);
+    public Optional<IntegrityCase> getCaseById(Long caseId) {
+        return integrityCaseRepository.findById(caseId);
     }
 }
