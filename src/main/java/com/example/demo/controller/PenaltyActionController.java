@@ -7,17 +7,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/penalties")
+@RequestMapping("/api/penalties")
 public class PenaltyActionController {
     private final PenaltyActionService penaltyActionService;
-    
+
     public PenaltyActionController(PenaltyActionService penaltyActionService) {
         this.penaltyActionService = penaltyActionService;
     }
-    
+
     @PostMapping
     public ResponseEntity<ApiResponse> addPenalty(@RequestBody PenaltyAction penaltyAction) {
-        PenaltyAction created = penaltyActionService.addPenalty(penaltyAction);
-        return ResponseEntity.ok(new ApiResponse(true, "Penalty added successfully", created));
+        PenaltyAction added = penaltyActionService.addPenalty(penaltyAction);
+        return ResponseEntity.ok(new ApiResponse(true, "Penalty added successfully", added));
     }
 }
