@@ -27,6 +27,13 @@ public class RepeatOffenderRecordServiceImpl implements RepeatOffenderRecordServ
     }
 
     @Override
+    public RepeatOffenderRecord recalculateRecord(Long studentId) {
+        StudentProfile studentProfile = studentProfileRepository.findById(studentId)
+                .orElseThrow(() -> new RuntimeException("Student not found"));
+        return recalculateRecord(studentProfile);
+    }
+
+    @Override
     public RepeatOffenderRecord recalculateRecord(StudentProfile studentProfile) {
         var cases = integrityCaseRepository.findByStudentProfile_Id(studentProfile.getId());
         int totalCases = cases.size();

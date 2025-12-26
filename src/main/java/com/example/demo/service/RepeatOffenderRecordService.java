@@ -5,4 +5,5 @@ import com.example.demo.entity.StudentProfile;
 
 public interface RepeatOffenderRecordService {
     RepeatOffenderRecord recalculateRecord(StudentProfile studentProfile);
+    RepeatOffenderRecord recalculateRecord(Long studentId);
 }
