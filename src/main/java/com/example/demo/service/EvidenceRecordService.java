@@ -1,8 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.IntegrityCase;
-import java.util.List;
+import com.example.demo.entity.EvidenceRecord;
 
 public interface EvidenceRecordService {
-    List<IntegrityCase> getCasesByStudentIdentifier(String studentIdentifier);
+    EvidenceRecord submitEvidence(EvidenceRecord evidenceRecord);
 }
