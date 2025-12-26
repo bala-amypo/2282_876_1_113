@@ -15,17 +15,17 @@ public class BasicServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
-        out.println("<html><body><h1>Basic Servlet GET</h1></body></html>");
         response.setStatus(HttpServletResponse.SC_OK);
+        PrintWriter out = response.getWriter();
+        out.println("Servlet is running");
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         response.setContentType("text/html");
+        response.setStatus(HttpServletResponse.SC_CREATED);
         PrintWriter out = response.getWriter();
-        out.println("<html><body><h1>Basic Servlet POST</h1></body></html>");
-        response.setStatus(HttpServletResponse.SC_OK);
+        out.println("Servlet POST handled");
     }
 }

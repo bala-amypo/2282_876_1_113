@@ -48,7 +48,7 @@ public class StudentProfileServiceImpl implements StudentProfileService {
     @Override
     public StudentProfile updateRepeatOffenderStatus(Long studentId) {
         StudentProfile student = getStudentById(studentId);
-        var cases = integrityCaseRepository.findByStudentProfile_Id(studentId);
+        var cases = integrityCaseRepository.findByStudentProfile(student);
         
         int totalCases = cases.size();
         String severity = repeatOffenderCalculator.calculateSeverity(totalCases);

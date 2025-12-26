@@ -20,10 +20,15 @@ public class EvidenceRecordServiceImpl implements EvidenceRecordService {
 
     @Override
     public EvidenceRecord submitEvidence(EvidenceRecord evidenceRecord) {
-        if (evidenceRecord.getIntegrityCase() == null || 
-            !integrityCaseRepository.existsById(evidenceRecord.getIntegrityCase().getId())) {
+        if (evidenceRecord.getIntegrityCase() == null) {
             throw new ResourceNotFoundException("IntegrityCase not found");
         }
+        
+        Long caseId = evidenceRecord.getIntegrityCase().getId();
+        if (caseId == null || !integrityCaseRepository.existsById(caseId)) {
+            throw new ResourceNotFoundException("IntegrityCase not found");
+        }
+        
         return evidenceRecordRepository.save(evidenceRecord);
     }
 }

@@ -25,6 +25,14 @@ public class IntegrityCaseServiceImpl implements IntegrityCaseService {
         if (integrityCase.getStudentProfile() == null) {
             throw new IllegalArgumentException("StudentProfile is required");
         }
+        
+        // Validate that the student exists
+        Long studentId = integrityCase.getStudentProfile().getId();
+        if (studentId != null) {
+            studentProfileRepository.findById(studentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
+        }
+        
         return integrityCaseRepository.save(integrityCase);
     }
 
