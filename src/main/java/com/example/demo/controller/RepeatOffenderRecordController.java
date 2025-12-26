@@ -1,22 +1,23 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.ApiResponse;
 import com.example.demo.entity.RepeatOffenderRecord;
 import com.example.demo.service.RepeatOffenderRecordService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/repeat-offender")
+@RequestMapping("/api/repeat-offenders")
 public class RepeatOffenderRecordController {
-
     private final RepeatOffenderRecordService service;
 
     public RepeatOffenderRecordController(RepeatOffenderRecordService service) {
         this.service = service;
     }
 
-    @PostMapping("/refresh/{studentId}")
-    public RepeatOffenderRecord refreshRepeatOffenderData(@PathVariable Long studentId) {
-        service.refreshRepeatOffenderData(studentId); // service method can remain void
-        return service.getRepeatOffenderRecord(studentId); // return the updated record
+    @PutMapping("/{studentId}")
+    public ResponseEntity<ApiResponse> recalculateRecord(@PathVariable Long studentId) {
+        RepeatOffenderRecord record = service.recalculateRecord(studentId);
+        return ResponseEntity.ok(new ApiResponse(true, "Record recalculated", record));
     }
 }
