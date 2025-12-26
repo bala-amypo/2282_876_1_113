@@ -25,9 +25,12 @@ public class EvidenceRecordServiceImpl implements EvidenceRecordService {
         }
         
         Long caseId = evidenceRecord.getIntegrityCase().getId();
-        if (caseId == null || !integrityCaseRepository.existsById(caseId)) {
+        if (caseId == null) {
             throw new ResourceNotFoundException("IntegrityCase not found");
         }
+        
+        integrityCaseRepository.findById(caseId)
+            .orElseThrow(() -> new ResourceNotFoundException("IntegrityCase not found"));
         
         return evidenceRecordRepository.save(evidenceRecord);
     }
