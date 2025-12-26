@@ -1,22 +1,23 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.IntegrityCase;
+import com.example.demo.dto.ApiResponse;
+import com.example.demo.entity.EvidenceRecord;
 import com.example.demo.service.EvidenceRecordService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
-@RequestMapping("/evidence")
+@RequestMapping("/api/evidence")
 public class EvidenceRecordController {
-
     private final EvidenceRecordService evidenceRecordService;
 
     public EvidenceRecordController(EvidenceRecordService evidenceRecordService) {
         this.evidenceRecordService = evidenceRecordService;
     }
 
-    @GetMapping("/{studentIdentifier}")
-    public List<IntegrityCase> getCases(@PathVariable String studentIdentifier) {
-        return evidenceRecordService.getCasesByStudentIdentifier(studentIdentifier);
+    @PostMapping
+    public ResponseEntity<ApiResponse> submitEvidence(@RequestBody EvidenceRecord evidenceRecord) {
+        EvidenceRecord submitted = evidenceRecordService.submitEvidence(evidenceRecord);
+        return ResponseEntity.ok(new ApiResponse(true, "Evidence submitted successfully", submitted));
     }
 }
