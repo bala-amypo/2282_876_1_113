@@ -75,4 +75,7 @@ public class IntegrityCase {
 
     public List<PenaltyAction> getPenaltyActions() { return penaltyActions; }
     public void setPenaltyActions(List<PenaltyAction> penaltyActions) { this.penaltyActions = penaltyActions; }
+
+    // Alias for tests expecting 'getPenalties' instead of 'getPenaltyActions'
+    public List<PenaltyAction> getPenalties() { return penaltyActions; }
 }

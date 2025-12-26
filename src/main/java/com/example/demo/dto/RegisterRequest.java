@@ -26,4 +26,7 @@ public class RegisterRequest {
 
     public String getRoleName() { return roleName; }
     public void setRoleName(String roleName) { this.roleName = roleName; }
+
+    // Alias for tests expecting setRole(String)
+    public void setRole(String role) { this.roleName = role; }
 }

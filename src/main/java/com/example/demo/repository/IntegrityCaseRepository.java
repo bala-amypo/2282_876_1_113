@@ -11,6 +11,9 @@ import java.util.List;
 @Repository
 public interface IntegrityCaseRepository extends JpaRepository<IntegrityCase, Long> {
     List<IntegrityCase> findByStudentProfile_Id(Long studentId);
+
+    // Alias to satisfy tests expecting method by entity rather than id
+    List<IntegrityCase> findByStudentProfile(com.example.demo.entity.StudentProfile studentProfile);
     
     @Query("SELECT ic FROM IntegrityCase ic WHERE ic.studentProfile.studentId = :studentIdentifier")
     List<IntegrityCase> findByStudentIdentifier(@Param("studentIdentifier") String studentIdentifier);
